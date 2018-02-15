@@ -26,16 +26,23 @@ class Register extends Component{
   handleSubmit = (e) =>{
     e.preventDefault()
     console.log("handle register", this.state)
-   request
-   .post('http://localhost:9292/users/register')
-   .send({
-    email: this.state.email,
-    username: this.state.username,
-    password: this.state.password
-  })
-   .end((err, res) =>{
-    console.log(err, res)
-   })
+    request
+      .post('http://localhost:9292/users/register')
+      .type('form')
+      .send({
+        email: this.state.email,
+        username: this.state.username,
+        password: this.state.password
+      })
+      .end((err, res) =>{
+        if (err) {
+          console.log(err)
+        }
+        else {
+          this.props.whenRegistered()
+          this.props.getName(this.state.username)
+        }
+      })
   }
 
 
@@ -49,7 +56,6 @@ class Register extends Component{
         Password: <br />
         <input type="password" name="password" value={this.state.password} onChange={this.passwordChange}/><br />
         <button onClick={this.handleSubmit}>Register</button>
-
 
       </form>
       )

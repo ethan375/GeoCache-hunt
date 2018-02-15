@@ -25,12 +25,17 @@ class Login extends Component{
     console.log(this.state)
     e.preventDefault()
     request
-    .post('http://localhost:9292/users/login')
-    .send(this.state)
-    .end((err, res) =>{
-      console.log(err, res)
-    })
-
+      .post('http://localhost:9292/users/login')
+      .send(this.state)
+      .end((err, res) =>{
+        if (err) {
+          console.log(err)
+        }
+        else {
+          console.log(this.state.username)
+          this.props.getName(this.state.username)
+        }
+      })
   }
 
   render(){
