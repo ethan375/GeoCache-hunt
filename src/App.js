@@ -46,7 +46,7 @@ class App extends Component {
     return (
 
     <div className="root">
-      { logView }
+      <CreateHunt />
     </div>
     );
   }

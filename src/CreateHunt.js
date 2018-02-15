@@ -12,7 +12,7 @@ class CreateHunt extends Component {
   constructor(){
     super()
     this.state={
-      selectValue: 0,
+      selectValue: [],
       latitude:[],
       longitude:[],
       hints: [],
@@ -42,12 +42,16 @@ class CreateHunt extends Component {
   }
 
   handleChange = (e) =>{
-    console.log(e.currentTarget)
+    this.setState({selectValue: e.currentTarget.value})
+    console.log(this.state.selectValue)
   }
 
  
-  render() {
-    return (
+ render() {
+  //   const hintForm = for (let i = 0; i <this.state.selectValue; i++) {
+  //     return <input text="text" name="hint" />
+    // }
+    return( 
       <div className="google-map">
       <GoogleMapReact
         bootstrapURLKeys={{ key: APIKEY  }}
@@ -64,21 +68,28 @@ class CreateHunt extends Component {
       <button onClick={this.buttonPress}>Find position</button>
       <form>
         Title:<br /><input type="text" value={this.state.title} onChange={this.handleTitle}/><br />
+
         Description:<br /><input type="text" value={this.state.description} onChange={this.handleDes} /><br />
+
         <button onClick={this.setMarker}>Create your hunt</button>
+
       <p>How many hints do you want to add?</p>
-      <select id="hintNumber" defaultValue={this.state.selectValue} onChange={this.handleChange}>
-        <option onClick={this.handleHintNumber} value="4">4</option>
-        <option onClick={this.handleHintNumber} value="5">5</option>
-        <option onClick={this.handleHintNumber} value="6">6</option>
-        <option onClick={this.handleHintNumber}value="7">7</option>
-        <option onClick={this.handleHintNumber} value="8">8</option>
-        <option onClick={this.handleHintNumber}value="9">9</option>
-        <option onClick={this.handleHintNumber} value="10">10</option>
+
+      <select value={this.state.selectValue} onChange={this.handleChange}>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
       </select>
       </form>
+      <form>
+
+      </form>
       </div>
-    );
+    )
   }
 }
 
