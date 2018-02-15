@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+
 import Login from './Login'
 import Register from './Register'
 import Main from './Main'
@@ -40,9 +41,10 @@ class App extends Component {
       logView = <Main />
     }
     return (
-    <div className="main">
+    <div className="App">
 
-      { logView }
+      <CreateHunt />
+
     </div>
     );
   }

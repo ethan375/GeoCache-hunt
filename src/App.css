@@ -1,36 +1,9 @@
-body{
-  text-align: center;
-}
-
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-.main {
-  height: 100%;
-  width: 100%;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  background: white;
+  background: linear-gradient(to bottom right,rgba(40, 240, 255, 0.19),rgba(40, 240, 255, 0.19),white,white,white,white, #ffffff, #ffffff);
+  height: 40vh;
+  width: 50%;
+  font-family: 'Raleway', sans-serif;
+  margin: 0 auto;
+  margin-top: 30px;
 }
