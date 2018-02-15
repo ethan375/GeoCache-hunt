@@ -22,7 +22,8 @@ class Login extends Component{
     this.props.getRegister(true)
   }
   handleSubmit = (e) =>{
-    e.preventDefault
+    console.log(this.state)
+    e.preventDefault()
     request
     .post('http://localhost:9292/users/login')
     .send(this.state)

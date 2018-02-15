@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Login from './Login'
 import Register from './Register'
 import Main from './Main'
+import CreateHunt from './CreateHunt'
 
 class App extends Component {
   constructor(){
@@ -25,8 +25,9 @@ class App extends Component {
 
   render() {
     return (
-    <div>
-      {this.state.username === '' ? this.state.register === false ? <Login getName={this.getUsername} getRegister={this.getRegister}/> : <Register /> : <Main />}
+    <div className="main">
+  {this.state.username === '' ? this.state.register === false ? <Login getName={this.getUsername} getRegister={this.getRegister}/> : <Register /> : <Main />}
+
     </div>
     );
   }

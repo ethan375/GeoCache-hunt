@@ -24,10 +24,15 @@ class Register extends Component{
   }
 
   handleSubmit = (e) =>{
-    e.preventDefault
+    e.preventDefault()
+    console.log("handle register", this.state)
    request
    .post('http://localhost:9292/users/register')
-   .send(this.state)
+   .send({
+    email: this.state.email,
+    username: this.state.username,
+    password: this.state.password
+  })
    .end((err, res) =>{
     console.log(err, res)
    })
@@ -40,7 +45,7 @@ class Register extends Component{
         Email: <br />
         <input name="email" type="text" value={this.state.email} onChange={this.emailChange}/><br />
         Username: <br />
-        <input type="text" name="username" value={this.state.usernameChange}/><br />
+        <input type="text" name="username" value={this.state.usernameChange} onChange={this.usernameChange}/><br />
         Password: <br />
         <input type="password" name="password" value={this.state.password} onChange={this.passwordChange}/><br />
         <button onClick={this.handleSubmit}>Register</button>
