@@ -15,7 +15,11 @@ class Main extends Component{
   }
 
   setViewId = (id) => {
-    this.setState({viewHunt: id})
+    this.setState({showWhich: 3, viewHunt: id})
+  }
+
+  handleView = (e) => {
+    this.setState({showWhich: e.currentTarget.id})
   }
   render(){
     let view = null;
@@ -24,21 +28,22 @@ class Main extends Component{
       view = <LandingPage viewHunt={this.setViewId}/>
     }
     else if (this.state.showWhich == 1) {
-      view = <ShowHunt viewHunt={this.setViewId} huntId={this.state.viewHunt}/>
+      view = <ShowUser />
     }
     else if (this.state.showWhich == 2) {
       view = <CreateHunt />
     }
     else if (this.state.showWhich == 3) {
-      view = <ShowUser />
+      view = <ShowHunt viewHunt={this.setViewId} huntId={this.state.viewHunt}/>
     }
 
     return(
       <div className="main-container">
         { view }
         <div className="footer">
-          <div className="footer-nav">User profile</div>
-          <div className="footer-nav">Create hunt</div>
+          <div id="1" onClick={this.handleView} className="footer-nav">User profile</div>
+          <div id="0" onClick={this.handleView} className="footer-nav">Home</div>
+          <div id="2" onClick={this.handleView} className="footer-nav">Create hunt</div>
         </div>
       </div>
     )

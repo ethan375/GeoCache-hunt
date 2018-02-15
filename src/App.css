@@ -20,7 +20,8 @@
   height: 100%;
 }
 .footer {
-
+  border: 2px dotted black;
+  padding: 2px;
 }
 .footer-nav {
   font-size: 24px;
@@ -37,17 +38,40 @@
 
 /* landing page */
 .landing-page {
-  border: 1px solid black;
+  height: 720px;
+  background-color: azure;
+}
+.landing-page h2 {
+  text-align: center;
+}
+.landing-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 .landing-hunts {
-  font-family: 'Roboto', sans-serif;
-  font-style: italic;
+  margin-top: 10px;
+  padding: 5px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 28px;
   cursor: pointer;
-  margin: 10px;
-  border: 1px solid black;
-  padding: 2px;
   text-decoration: underline;
-  color: blue;
+  color: darkblue;
+  box-shadow: 1px 1px 2px black;
+  background-image: url('./cityrender.png');
+  background-position: center center;
+  height: 80px;
+}
+.landing-hunts-inner {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.7)
+}
+.landing-hunts-inner:hover {
+  box-shadow: 2px 2px 2px black;
+}
+.landing-hunts-inner p {
+  padding: 5px;
 }
 
 
