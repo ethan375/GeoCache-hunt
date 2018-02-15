@@ -26,7 +26,8 @@ class App extends Component {
   render() {
     return (
     <div className="main">
-  {this.state.username === '' ? this.state.register === false ? <Login getName={this.getUsername} getRegister={this.getRegister}/> : <Register /> : <Main />}
+      
+      <CreateHunt />
 
     </div>
     );

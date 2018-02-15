@@ -1,46 +1,30 @@
-import React, { Component } from 'react';
-import request from 'superagent';
-import GoogleMapReact from 'google-map-react'
 import APIKEY from'./config.js'
 import './styles/CreateHunt.css'
-
-class CreateHunt extends Component{
-  constructor(){
-    super()
-    this.state ={
-      center:{
-        lng: 30.33,
-        lat: 59.95,
-    },
-      title: '',
-      description: '',
-      zoom: 0
-    }
-  }
-
-  handleTitle = (e) =>{
-    this.setState({title:e.currentTarget.value})
-  }
-
-  handleDes = (e) =>{
-    this.setState({description:e.currentTarget.value})
-  }
-
-
- render(){
-  return(
-    <div className="newHunt">
-      <form>
-        Title:<input type="text" value={this.state.title} onChange={this.handleTitle}/><br />
-        Description:<input type="text" value={this.state.description} onChange={this.handleDes} /><br />
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: APIKEY }}
-          defaultCenter={this.state.center}
-          defaultZoom={this.state.zoom}
+import React, { Component } from 'react';
+import GoogleMapReact from 'google-map-react';
+ 
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
+ 
+class CreateHunt extends Component {
+  static defaultProps = {
+    center: {lat: 59.95, lng: 30.33},
+    zoom: 11
+  };
+ 
+  render() {
+    return (
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: APIKEY  }}
+        defaultCenter={this.props.center}
+        defaultZoom={this.props.zoom}
+      >
+        <AnyReactComponent
+          lat={59.955413}
+          lng={30.337844}
+          text={'Kreyser Avrora'}
         />
-      </form>
-    </div>
-  )
+      </GoogleMapReact>
+    );
   }
 }
 
