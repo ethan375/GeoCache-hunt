@@ -25,7 +25,6 @@ class Register extends Component{
 
   handleSubmit = (e) =>{
     e.preventDefault()
-    console.log("handle register", this.state)
     request
       .post('http://localhost:9292/users/register')
       .type('form')
@@ -35,12 +34,14 @@ class Register extends Component{
         password: this.state.password
       })
       .end((err, res) =>{
+        const parsed = JSON.parse(res.text)
         if (err) {
           console.log(err)
         }
         else {
           this.props.whenRegistered()
           this.props.getName(this.state.username)
+          this.props.errorMessage(parsed.message)
         }
       })
   }

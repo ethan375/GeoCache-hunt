@@ -10,6 +10,7 @@ class App extends Component {
   constructor(){
     super()
     this.state={
+      message: '',
       register: false,
       username: ''
     }
@@ -20,31 +21,32 @@ class App extends Component {
   }
 
   getRegister = (bool) =>{
-    console.log(this.state)
     this.setState({register:bool})
   }
 
   whenRegistered = () => {
-    console.log(this.state)
     this.setState({register:false})
+  }
+
+  errorMessage = (str) => {
+    this.setState({message: str})
   }
   render() {
     let logView = null;
 
     if (this.state.username === "" && this.state.register === false) {
-      logView = <Login getName={this.getUsername} getRegister={this.getRegister}/>
+      logView = <Login getName={this.getUsername} getRegister={this.getRegister} errorMessage={this.errorMessage}/>
     }
     else if (this.state.username === "") {
-      logView = <Register getName={this.getUsername} whenRegistered={this.whenRegistered}/>
+      logView = <Register getName={this.getUsername} whenRegistered={this.whenRegistered} errorMessage={this.errorMessage}/>
     }
     else {
       logView = <Main />
     }
     return (
-    <div className="App">
 
-      <CreateHunt />
-
+    <div className="root">
+      { logView }
     </div>
     );
   }

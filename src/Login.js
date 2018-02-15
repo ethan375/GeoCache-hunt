@@ -19,21 +19,30 @@ class Login extends Component{
   }
 
   register = (e) =>{
+    e.preventDefault()
+
     this.props.getRegister(true)
   }
   handleSubmit = (e) =>{
-    console.log(this.state)
     e.preventDefault()
     request
       .post('http://localhost:9292/users/login')
+      .type('form')
       .send(this.state)
       .end((err, res) =>{
         if (err) {
           console.log(err)
         }
         else {
-          console.log(this.state.username)
-          this.props.getName(this.state.username)
+          const parsed = JSON.parse(res.text)
+          if (parsed.success == true) {
+            this.props.getName(this.state.username)
+            this.props.errorMessage(parsed.message)
+          }
+          else {
+            this.setState({username: '', password: ''})
+            this.props.errorMessage(parsed.message)
+          }
         }
       })
   }
