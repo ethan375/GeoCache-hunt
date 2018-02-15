@@ -43,6 +43,7 @@ class App extends Component {
       logView = <Main />
     }
     return (
+
     <div className="root">
       { logView }
     </div>
