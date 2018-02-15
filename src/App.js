@@ -19,16 +19,30 @@ class App extends Component {
   }
 
   getRegister = (bool) =>{
-    console.log(bool)
+    console.log(this.state)
     this.setState({register:bool})
   }
 
+  whenRegistered = () => {
+    console.log(this.state)
+    this.setState({register:false})
+  }
   render() {
+    let logView = null;
+
+    if (this.state.username === "" && this.state.register === false) {
+      logView = <Login getName={this.getUsername} getRegister={this.getRegister}/>
+    }
+    else if (this.state.username === "") {
+      logView = <Register getName={this.getUsername} whenRegistered={this.whenRegistered}/>
+    }
+    else {
+      logView = <Main />
+    }
     return (
     <div className="main">
-      
-      <CreateHunt />
 
+      { logView }
     </div>
     );
   }
