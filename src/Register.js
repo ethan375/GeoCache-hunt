@@ -46,6 +46,11 @@ class Register extends Component{
       })
   }
 
+  returnToLogin = (e) => {
+    e.preventDefault()
+
+    this.props.getRegister(false)
+  }
 
   render(){
     return(
@@ -56,7 +61,8 @@ class Register extends Component{
         <input type="text" name="username" value={this.state.usernameChange} onChange={this.usernameChange}/><br />
         Password: <br />
         <input type="password" name="password" value={this.state.password} onChange={this.passwordChange}/><br />
-        <button onClick={this.handleSubmit}>Register</button>
+        <button onClick={this.handleSubmit}>Register</button><br/>
+        <button onClick={this.returnToLogin}>Back to login</button>
 
       </form>
       )

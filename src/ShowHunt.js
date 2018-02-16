@@ -25,7 +25,6 @@ class ShowHunt extends Component{
           console.log(err)
         }
         else {
-          console.log(parsed)
           this.setState({hunt: parsed.hunt, creator: parsed.creator})
         }
       })
