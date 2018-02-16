@@ -45,9 +45,13 @@ class CreateHunt extends Component {
   }
 
   submitHunt = (e) => {
+    const hints = Array.from(e.currentTarget.parentElement.children)
+    hints.map((hint, i)=>{
+      this.state.hints.push(hint.value)
+    })
+    this.state.hints.pop()
     e.preventDefault()
-    this.state.hints.push(e.currentTarget.parentElement.children.value)
-    // console.log(this.state.hints)
+    console.log(this.state.hints)
     request
     .post('http://localhost:9292/hunts/new')
     .send({
