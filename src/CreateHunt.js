@@ -2,6 +2,7 @@ import APIKEY from'./config.js'
 import './styles/CreateHunt.css'
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
+import request from 'superagent'
 
 const defaultMapCenter = {lat: 41.882059,lng: -87.627815};
 const defaultZoom = 11;
@@ -12,13 +13,16 @@ class CreateHunt extends Component {
   constructor(){
     super()
     this.state={
+      title: '',
+      description: '',
       selectValue: 0,
       latitude:[],
       longitude:[],
       hints: [],
-      marker:{
+      zoom: 15,
+      marker: {
         lat: 0,
-        lng:0
+        lng: 0
       }
     }
   }
@@ -30,30 +34,66 @@ class CreateHunt extends Component {
       draggable: true,
       map
     })
-    marker.addListener('dragend', this.checkMarker)
+    marker.addListener('dragend', this.setMarker)
   }
 
-  checkMarker = (e) => {
-    console.log(e, 'lat:' + e.latLng.lat(), 'long:'+e.latLng.lng())
-  }
 
   setMarker  = (e) =>{
-    // this.setState({marker:})
+    this.setState({latitude:e.latLng.lat(), longitude:e.latLng.lng()})
   }
 
   handleChange = (e) =>{
-    console.log(e.currentTarget)
+    this.setState({selectValue: e.currentTarget.value})
+    console.log(this.state.selectValue)
   }
 
+  submitHunt = (e) => {
+    e.preventDefault()
+    request
+    .post('http://localhost:9292/hunts/new')
+    .send({
+      title: this.state.title,
+      description: this.state.description,
+      latitude: this.state.latitude,
+      longitude: this.state.longitude,
+      zoom:this.state.zoom,
+      hints: this.state.hints
+    })
+   
+  }
+
+  titleChange = (e) =>{
+    this.setState({title:e.currentTarget.value})
+  }
+
+  desChange = (e) =>{
+    this.setState({description:e.currentTarget.value})
+  }
+
+  checkState = (e) =>{
+    e.preventDefault()
+    console.log(this.state)
+  }
+
+
  
-  render() {
-    return (
+ render() {
+
+    const inputs = [];
+    for(let i = 0; i < this.state.selectValue; i++) {
+      inputs.push(<div><input type="text" name="hint" key={i} /><br /></div>)
+    }
+    for(let i=0; i < inputs.length; i++){
+      inputs[i].value.push(this.state.hints)
+    }
+
+    return( 
       <div className="google-map">
       <GoogleMapReact
         bootstrapURLKeys={{ key: APIKEY  }}
         onGoogleApiLoaded={({map, maps}) => this.renderMarkers(map, maps)}
         defaultCenter={defaultMapCenter}
-        defaultZoom={defaultZoom}
+        defaultZoom={this.state.zoom}
         yesIWantToUseGoogleMapApiInternals={true}
       >
         <AnyReactComponent 
@@ -61,25 +101,30 @@ class CreateHunt extends Component {
           lng={ -87.627815 }
         />
       </GoogleMapReact>
-      <button onClick={this.buttonPress}>Find position</button>
       <form>
-        Title:<br /><input type="text" value={this.state.title} onChange={this.handleTitle}/><br />
-        Description:<br /><input type="text" value={this.state.description} onChange={this.handleDes} /><br />
-        <button onClick={this.setMarker}>Create your hunt</button>
+        Title:<br /><input type="text" value={this.state.title} onChange={this.titleChange}/><br />
+
+        Description:<br /><input type="text" value={this.state.description} onChange={this.desChange} /><br />
+
       <p>How many hints do you want to add?</p>
-      <select id="hintNumber" defaultValue={this.state.selectValue} onChange={this.handleChange}>
-        <option onClick={this.handleHintNumber} value="4">4</option>
-        <option onClick={this.handleHintNumber} value="5">5</option>
-        <option onClick={this.handleHintNumber} value="6">6</option>
-        <option onClick={this.handleHintNumber}value="7">7</option>
-        <option onClick={this.handleHintNumber} value="8">8</option>
-        <option onClick={this.handleHintNumber}value="9">9</option>
-        <option onClick={this.handleHintNumber} value="10">10</option>
+
+      <select multiple={true}  onChange={this.handleChange}>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
       </select>
       </form>
+
+        <form>
+          {inputs}
+          <button onClick={this.submitHunt}>Create your hunt</button>
+        </form>
       </div>
-    );
+    )
   }
 }
-
 export default CreateHunt;
