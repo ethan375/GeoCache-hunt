@@ -5,9 +5,7 @@ import GoogleMapReact from 'google-map-react';
 import request from 'superagent'
 
 const defaultMapCenter = {lat: 41.882059,lng: -87.627815};
-const defaultZoom = 11;
  
-const AnyReactComponent = ({ text }) => <div className="bigtest">{text}</div>;
  
 class CreateHunt extends Component {
   constructor(){
@@ -44,11 +42,12 @@ class CreateHunt extends Component {
 
   handleChange = (e) =>{
     this.setState({selectValue: e.currentTarget.value})
-    console.log(this.state.selectValue)
   }
 
   submitHunt = (e) => {
     e.preventDefault()
+    this.state.hints.push(e.currentTarget.parentElement.children.value)
+    // console.log(this.state.hints)
     request
     .post('http://localhost:9292/hunts/new')
     .send({
@@ -59,7 +58,6 @@ class CreateHunt extends Component {
       zoom:this.state.zoom,
       hints: this.state.hints
     })
-   
   }
 
   titleChange = (e) =>{
@@ -81,12 +79,12 @@ class CreateHunt extends Component {
 
     const inputs = [];
     for(let i = 0; i < this.state.selectValue; i++) {
-      inputs.push(<div><input type="text" name="hint" key={i} /><br /></div>)
+      inputs.push(<input type="text" name="hint" key={i}/>)
     }
-    for(let i=0; i < inputs.length; i++){
-      inputs[i].value.push(this.state.hints)
-    }
-
+    // inputs.map((input, i)=>{
+    //   console.log(input)
+    //   this.state.hints.push(input.value)
+    // })
     return( 
       <div className="google-map">
       <GoogleMapReact
@@ -96,10 +94,7 @@ class CreateHunt extends Component {
         defaultZoom={this.state.zoom}
         yesIWantToUseGoogleMapApiInternals={true}
       >
-        <AnyReactComponent 
-          lat={ 41.882059 }
-          lng={ -87.627815 }
-        />
+
       </GoogleMapReact>
       <form>
         Title:<br /><input type="text" value={this.state.title} onChange={this.titleChange}/><br />
@@ -108,7 +103,7 @@ class CreateHunt extends Component {
 
       <p>How many hints do you want to add?</p>
 
-      <select multiple={true}  onChange={this.handleChange}>
+      <select  onChange={this.handleChange}>
         <option value="4">4</option>
         <option value="5">5</option>
         <option value="6">6</option>
