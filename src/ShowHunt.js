@@ -10,8 +10,9 @@ class ShowHunt extends Component{
       id: this.props.huntId,
       hunt: '',
       creator: '',
-      buttonText: "Start this hunt",
-      play: false
+      hints: [],
+      play: false,
+      paricipantId: 0
     }
   }
 
@@ -30,7 +31,22 @@ class ShowHunt extends Component{
       })
   }
 
-  startHunt = () => {
+  startHunt = (e) => {
+    e.preventDefault()
+
+    request
+      .post('http://localhost:9292/hunts/'+this.state.id+'/play')
+      .end((err, res) => {
+        if (err) {
+          console.log(err)
+        }
+        else {
+          const parsed = JSON.parse(res.text)
+          console.log(parsed)
+
+        }
+      })
+
     const startStop = !this.state.play
     const button = startStop ? "Pause this hunt" : "Start this hunt"
 
@@ -49,7 +65,6 @@ class ShowHunt extends Component{
     const description = this.state.hunt.description
     const date = this.state.hunt.creation_date
     const creator = this.state.creator.username
-    const button = this.state.buttonText
 
     return(
       <div className="show-hunt-container">
@@ -58,7 +73,7 @@ class ShowHunt extends Component{
         </div>
         <div className="show-hunt-description"> { description } </div>
         <div className="show-hunt-map"> THIS IS WHERE THE MAP GOES </div>
-        <button onClick={this.startHunt}>{ button }</button>
+        <button onClick={ this.startHunt }>Start this hunt!</button>
       </div>
     )
   }
