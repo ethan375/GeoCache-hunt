@@ -37,10 +37,10 @@ class App extends Component {
       logView = <Login getName={this.getUsername} getRegister={this.getRegister} errorMessage={this.errorMessage}/>
     }
     else if (this.state.username === "") {
-      logView = <Register getName={this.getUsername} whenRegistered={this.whenRegistered} errorMessage={this.errorMessage}/>
+      logView = <Register getName={this.getUsername} getRegister={this.getRegister} whenRegistered={this.whenRegistered} errorMessage={this.errorMessage}/>
     }
     else {
-      logView = <Main />
+      logView = <Main getUsername={this.getUsername}/>
     }
     return (
 
