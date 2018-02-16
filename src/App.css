@@ -115,14 +115,14 @@
 }
 .show-hunt-map {
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 20px;
   height: 500px;
   width: 500px;
   background-color: lightseagreen;
 }
 .show-hunt-container button {
   margin: 0 auto;
-  margin-top: 10px;
+  margin-top: 20px;
   border: 1px solid black;
   font-size: 24px;
   width: 500px;
