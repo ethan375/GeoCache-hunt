@@ -12,13 +12,16 @@ class CreateHunt extends Component {
   constructor(){
     super()
     this.state={
-      selectValue: [],
+      title: '',
+      description: '',
+      selectValue: 0,
       latitude:[],
       longitude:[],
       hints: [],
-      marker:{
+      zoom: 15,
+      marker: {
         lat: 0,
-        lng:0
+        lng: 0
       }
     }
   }
@@ -30,7 +33,7 @@ class CreateHunt extends Component {
       draggable: true,
       map
     })
-    marker.addListener('dragend', this.checkMarker)
+    marker.addListener('dragend', this.setMarker)
   }
 
   checkMarker = (e) => {
@@ -38,7 +41,7 @@ class CreateHunt extends Component {
   }
 
   setMarker  = (e) =>{
-    // this.setState({marker:})
+    this.setState({latitude:e.latLng.lat(), longitude:e.latLng.lng()})
   }
 
   handleChange = (e) =>{
@@ -46,18 +49,40 @@ class CreateHunt extends Component {
     console.log(this.state.selectValue)
   }
 
+  handleHints = (e) => {
+    e.preventDefault()
+    console.log(e.target)
+  }
+
+  titleChange = (e) =>{
+    this.setState({title:e.currentTarget.value})
+  }
+
+  desChange = (e) =>{
+    this.setState({description:e.currentTarget.value})
+  }
+
+  checkState = (e) =>{
+    e.preventDefault()
+    console.log(this.state)
+  }
+
+
  
  render() {
-  //   const hintForm = for (let i = 0; i <this.state.selectValue; i++) {
-  //     return <input text="text" name="hint" />
-    // }
+
+    const inputs = [];
+    for(let i = 0; i < this.state.selectValue; i++) {
+      inputs.push(<div><input type="text" name="hint" key={i} /><br /></div>)
+    }
+
     return( 
       <div className="google-map">
       <GoogleMapReact
         bootstrapURLKeys={{ key: APIKEY  }}
         onGoogleApiLoaded={({map, maps}) => this.renderMarkers(map, maps)}
         defaultCenter={defaultMapCenter}
-        defaultZoom={defaultZoom}
+        defaultZoom={this.state.zoom}
         yesIWantToUseGoogleMapApiInternals={true}
       >
         <AnyReactComponent 
@@ -65,17 +90,16 @@ class CreateHunt extends Component {
           lng={ -87.627815 }
         />
       </GoogleMapReact>
-      <button onClick={this.buttonPress}>Find position</button>
       <form>
-        Title:<br /><input type="text" value={this.state.title} onChange={this.handleTitle}/><br />
+        Title:<br /><input type="text" value={this.state.title} onChange={this.titleChange}/><br />
 
-        Description:<br /><input type="text" value={this.state.description} onChange={this.handleDes} /><br />
+        Description:<br /><input type="text" value={this.state.description} onChange={this.desChange} /><br />
 
         <button onClick={this.setMarker}>Create your hunt</button>
 
       <p>How many hints do you want to add?</p>
 
-      <select value={this.state.selectValue} onChange={this.handleChange}>
+      <select multiple={true}  onChange={this.handleChange}>
         <option value="4">4</option>
         <option value="5">5</option>
         <option value="6">6</option>
@@ -85,12 +109,14 @@ class CreateHunt extends Component {
         <option value="10">10</option>
       </select>
       </form>
-      <form>
 
-      </form>
+        <form action="">
+          {inputs}
+          <button onClick={this.handleHints}>Submit</button>
+          <button onClick={this.checkState}>Check state</button>
+        </form>
       </div>
     )
   }
 }
-
 export default CreateHunt;
