@@ -51,9 +51,14 @@ class CreateHunt extends Component {
     })
     this.state.hints.pop()
     e.preventDefault()
-    console.log(this.state.hints)
+    const test = e.currentTarget.parentElement.children.value
+    console.log(test)
+
+    // this.state.hints.push(e.currentTarget.parentElement.children.value)
+    console.log(this.state)
     request
     .post('http://localhost:9292/hunts/new')
+    .type('form')
     .send({
       title: this.state.title,
       description: this.state.description,
@@ -62,6 +67,15 @@ class CreateHunt extends Component {
       zoom:this.state.zoom,
       hints: this.state.hints
     })
+    .end((err, res) => {
+      if (err) {
+        console.log(err)
+      }
+      else {
+        console.log(res)
+      }
+    })
+
   }
 
   titleChange = (e) =>{
@@ -85,10 +99,6 @@ class CreateHunt extends Component {
     for(let i = 0; i < this.state.selectValue; i++) {
       inputs.push(<input type="text" name="hint" key={i}/>)
     }
-    // inputs.map((input, i)=>{
-    //   console.log(input)
-    //   this.state.hints.push(input.value)
-    // })
     return( 
       <div className="google-map">
       <GoogleMapReact
