@@ -2,6 +2,7 @@ import APIKEY from'./config.js'
 import './styles/CreateHunt.css'
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
+import request from 'superagent'
 
 const defaultMapCenter = {lat: 41.882059,lng: -87.627815};
 const defaultZoom = 11;
@@ -36,9 +37,6 @@ class CreateHunt extends Component {
     marker.addListener('dragend', this.setMarker)
   }
 
-  checkMarker = (e) => {
-    console.log(e, 'lat:' + e.latLng.lat(), 'long:'+e.latLng.lng())
-  }
 
   setMarker  = (e) =>{
     this.setState({latitude:e.latLng.lat(), longitude:e.latLng.lng()})
@@ -49,9 +47,19 @@ class CreateHunt extends Component {
     console.log(this.state.selectValue)
   }
 
-  handleHints = (e) => {
+  submitHunt = (e) => {
     e.preventDefault()
-    console.log(e.target)
+    request
+    .post('http://localhost:9292/hunts/new')
+    .send({
+      title: this.state.title,
+      description: this.state.description,
+      latitude: this.state.latitude,
+      longitude: this.state.longitude,
+      zoom:this.state.zoom,
+      hints: this.state.hints
+    })
+   
   }
 
   titleChange = (e) =>{
@@ -75,6 +83,9 @@ class CreateHunt extends Component {
     for(let i = 0; i < this.state.selectValue; i++) {
       inputs.push(<div><input type="text" name="hint" key={i} /><br /></div>)
     }
+    for(let i=0; i < inputs.length; i++){
+      inputs[i].value.push(this.state.hints)
+    }
 
     return( 
       <div className="google-map">
@@ -95,8 +106,6 @@ class CreateHunt extends Component {
 
         Description:<br /><input type="text" value={this.state.description} onChange={this.desChange} /><br />
 
-        <button onClick={this.setMarker}>Create your hunt</button>
-
       <p>How many hints do you want to add?</p>
 
       <select multiple={true}  onChange={this.handleChange}>
@@ -110,10 +119,9 @@ class CreateHunt extends Component {
       </select>
       </form>
 
-        <form action="">
+        <form>
           {inputs}
-          <button onClick={this.handleHints}>Submit</button>
-          <button onClick={this.checkState}>Check state</button>
+          <button onClick={this.submitHunt}>Create your hunt</button>
         </form>
       </div>
     )
