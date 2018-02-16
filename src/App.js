@@ -4,7 +4,6 @@ import './App.css';
 import Login from './Login'
 import Register from './Register'
 import Main from './Main'
-import CreateHunt from './CreateHunt'
 
 class App extends Component {
   constructor(){
@@ -46,7 +45,7 @@ class App extends Component {
     return (
 
     <div className="root">
-      <CreateHunt />
+      { logView }
     </div>
     );
   }
